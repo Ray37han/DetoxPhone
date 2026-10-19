@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--
+        Base application theme.
+        The launcher uses Compose for all UI, so this XML theme is minimal —
+        it only applies to the window background and status bar during startup.
+        All visual theming is handled by LauncherTheme in Compose.
+    -->
+    <style name="Theme.DetoxPhone" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <style name="Theme.MinimalistLauncher" parent="Theme.DetoxPhone" />
+</resources>

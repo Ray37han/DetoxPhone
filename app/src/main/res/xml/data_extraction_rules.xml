@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Data extraction rules for Android 12+ (API 31+).
+    Cloud backup and device-to-device transfer rules.
+
+    The launcher stores:
+    - DataStore preferences (theme, settings) — non-sensitive, allow backup
+    - Room database (app metadata, rules) — potentially sensitive, allow backup
+
+    We do NOT store notification contents or usage history in ways that
+    should be backed up (they are device-specific and time-sensitive).
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="file" path="datastore/"/>
+        <include domain="database" path="minimalist_launcher.db"/>
+        <!-- Exclude Room write-ahead log — regenerated automatically -->
+        <exclude domain="database" path="minimalist_launcher.db-wal"/>
+        <exclude domain="database" path="minimalist_launcher.db-shm"/>
+    </cloud-backup>
+    <device-transfer>
+        <include domain="file" path="datastore/"/>
+        <include domain="database" path="minimalist_launcher.db"/>
+        <exclude domain="database" path="minimalist_launcher.db-wal"/>
+        <exclude domain="database" path="minimalist_launcher.db-shm"/>
+    </device-transfer>
+</data-extraction-rules>

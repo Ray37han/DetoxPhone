@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Detox Phone</string>
+
+    <!-- Detox Accessibility Service -->
+    <string name="detox_accessibility_description">
+        Detox Engine: Intercepts app launches system-wide to enforce friction gates,
+        micro-timeboxes, scroll decay, short video blocking, and grayscale mode.
+        All data stays on-device. Required for full protection.
+    </string>
+
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">
+        Monitors foreground apps to enforce usage timers, blocking schedules,
+        and short video blocking. Required for Precision Mode.
+    </string>
+
+    <!-- Notification Channel -->
+    <string name="channel_blocking_name">Wellbeing Monitor</string>
+    <string name="channel_blocking_description">Monitors app usage for timers and blocking</string>
+
+    <!-- Home Screen -->
+    <string name="all_apps_hint">↑ All apps</string>
+    <string name="search_hint">Search apps…</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="appearance_title">Appearance</string>
+    <string name="behaviour_title">Behaviour</string>
+
+    <!-- Wellbeing -->
+    <string name="wellbeing_title">Digital wellbeing</string>
+    <string name="precision_mode_title">Precision Mode</string>
+    <string name="app_timers_title">App timers</string>
+    <string name="block_schedules_title">Block schedules</string>
+    <string name="monochrome_title">Monochrome mode</string>
+    <string name="notification_filtering_title">Notification filtering</string>
+    <string name="reels_blocking_title">Block Reels / Shorts</string>
+    <string name="challenge_lock_title">7-day challenge lock</string>
+
+    <!-- Blocking -->
+    <string name="blocked_title">Take a break</string>
+    <string name="blocked_go_home">Go home</string>
+    <string name="blocked_reason_schedule">Blocked by schedule</string>
+    <string name="blocked_reason_timer">Daily limit reached</string>
+    <string name="blocked_reason_reels">Short videos blocked</string>
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version">Version 0.1.0</string>
+</resources>

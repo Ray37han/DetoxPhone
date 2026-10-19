@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ── Core Launcher ─────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- ── Wellbeing: Usage Stats ─────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- ── Wellbeing: Notification Listener ────────────────────────────── -->
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- ── Wellbeing: Monochrome (Daltonizer) ─────────────────────────── -->
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- ── Wellbeing: Accessibility Service ────────────────────────────── -->
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- ── Wellbeing: Device Admin (Screen Lock) ──────────────────────── -->
+    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- ── Blocking Overlay ───────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- ── Notifications ──────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ── Battery ────────────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- ── Uninstall ──────────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+
+    <!-- ── Vibrate (Detox friction haptics) ─────────────────────────────── -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
+    <application
+        android:name=".MinimalistApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DetoxPhone"
+        tools:targetApi="31">
+
+        <!-- ── Main Launcher Activity ─────────────────────────────────── -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ── Fake Activity to trigger launcher chooser ──────────────── -->
+        <activity
+            android:name=".core.launcher.FakeLauncherActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:stateNotNeeded="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- ── App Blocked Activity (overlay-style) ───────────────────── -->
+        <activity
+            android:name=".wellbeing.ui.blocking.AppBlockedActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.DetoxPhone" />
+
+        <!-- ── Friction Gate Activity (Detox Engine overlay) ─────────── -->
+        <activity
+            android:name=".detox.ui.friction.FrictionGateActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:showOnLockScreen="true"
+            android:theme="@style/Theme.DetoxPhone" />
+
+        <!-- ── Strict Mode Guard Activity ───────────────────────────────── -->
+        <activity
+            android:name=".detox.ui.strict.StrictModeGuardActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:showOnLockScreen="true"
+            android:theme="@style/Theme.DetoxPhone" />
+
+        <!-- ── Blocking & Reminder Foreground Service ─────────────────── -->
+        <service
+            android:name=".wellbeing.service.BlockingAndReminderService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
+
+        <!-- ── Accessibility Service (Precision Mode) ─────────────────── -->
+        <service
+            android:name=".wellbeing.service.LauncherAccessibilityService"
+            android:exported="true"
+            android:label="Detox Phone Wellbeing"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- ── Notification Listener Service ──────────────────────────── -->
+        <service
+            android:name=".wellbeing.service.NotificationFilterService"
+            android:exported="true"
+            android:label="Detox Phone Notification Vault"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- ── Device Admin Receiver (Screen Lock) ────────────────────── -->
+        <receiver
+            android:name=".wellbeing.receiver.ScreenLockDeviceAdminReceiver"
+            android:exported="true"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_policies" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- ── Monochrome Mode Service ────────────────────────────────── -->
+        <service
+            android:name=".wellbeing.service.MonochromeService"
+            android:exported="false" />
+
+        <!-- ── Detox Accessibility Service (6-engine enforcement spine) ── -->
+        <service
+            android:name=".detox.service.DetoxAccessibilityService"
+            android:exported="true"
+            android:label="Detox Engine"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/detox_accessibility_config" />
+        </service>
+
+        <!-- ── WorkManager init provider (required for HiltWorkerFactory) ── -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
+    </application>
+
+</manifest>

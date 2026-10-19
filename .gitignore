@@ -1,0 +1,42 @@
+# Detox Phone — Git ignore rules
+
+# ── Gradle ────────────────────────────────────────────────────────────────────
+.gradle/
+build/
+**/build/
+
+# ── Local configuration ───────────────────────────────────────────────────────
+local.properties
+*.properties.local
+
+# ── Android Studio / IDE ─────────────────────────────────────────────────────
+.idea/
+.vscode/
+.kotlin/
+*.iml
+*.iws
+*.ipr
+
+# ── Kotlin ────────────────────────────────────────────────────────────────────
+*.class
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Binaries & Artifacts ──────────────────────────────────────────────────────
+*.apk
+*.aab
+*.keystore
+*.jks
+keystore.properties
+
+# ── Excluded Documentation & Work Folders ────────────────────────────────────
+untitled folder/
+docs/
+PROJECT_DOCUMENTATION.md
+
+# ── Room schema export ────────────────────────────────────────────────────────
+# Schema files ARE committed — they are part of migration verification.
+# Do NOT add app/schemas/ here.
+
